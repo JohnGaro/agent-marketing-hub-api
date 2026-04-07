@@ -32,6 +32,12 @@ const enhanceOutputSchema = z.object({
   suggestions: z.array(z.string()),
 });
 
+enum AiModel {
+  STANDARD = 'claude-haiku-4-5-20251001',
+  REASONING = 'claude-sonnet-4-5-20250929',
+  ULTRA = 'claude-opus-4-6',
+}
+
 @Injectable()
 export class AiService {
   private readonly logger = new Logger(AiService.name);
@@ -49,9 +55,9 @@ export class AiService {
     this.anthropic = new Anthropic({
       apiKey: this.configService.get<string>('ANTHROPIC_API_KEY'),
     });
-    this.model = this.configService.get<string>(
+    this.model = this.configService.get<AiModel>(
       'ANTHROPIC_MODEL',
-      'claude-haiku-4-5-20251001',
+      AiModel.REASONING,
     );
   }
 
