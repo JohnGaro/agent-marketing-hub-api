@@ -1,43 +1,63 @@
-# Agent Marketing Hub API
+# Agent Marketing Hub — API
 
-API NestJS, TypeORM & PostgreSQL.
+NestJS · TypeORM · PostgreSQL · Anthropic Claude
+
+---
 
 ## Prerequisites
 
 - [Docker](https://www.docker.com/) & Docker Compose
-- [Node.js 20](https://nodejs.org/) (for local development without Docker)
 
-## Getting started
+---
+
+## Quick start
 
 ### 1. Configure environment
+
+Copy the example file and **add your Anthropic API key**:
 
 ```bash
 cp .env.example .env
 ```
 
-### 2. Start the services
+Open `.env` and replace `your-anthropic-api-key-here` with your actual key:
+
+```env
+ANTHROPIC_API_KEY=sk-ant-...
+```
+
+### 2. Build & start the services
 
 ```bash
-docker compose up
+docker compose up --build
 ```
 
 This starts:
+
 - **PostgreSQL 16** on port `5432`
 - **NestJS API** on port `3000` (with hot-reload)
 
 The API is available at [http://localhost:3000](http://localhost:3000).
 
-### 3. Run tests
+### 3. Run migrations
+
+Open a shell inside the running API container, then run migrations:
 
 ```bash
-# Unit tests
-docker compose run --rm api npm run test
-
-# E2E tests
-docker compose run --rm api npm run test:e2e
+docker compose exec api npm run typeorm migration:run
 ```
 
-### 4. Stop the services
+### 4. Seed the database
+
+Populate the database with mock data:
+
+```bash
+docker compose exec api npm run seed
+```
+
+---
+
+## Stop the services
 
 ```bash
 docker compose down
@@ -48,12 +68,3 @@ To also remove the database volume:
 ```bash
 docker compose down -v
 ```
-
-## Local development (without Docker)
-
-```bash
-npm install
-npm run start:dev
-```
-
-Make sure a PostgreSQL instance is running and the `.env` file is configured accordingly.
