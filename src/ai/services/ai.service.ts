@@ -81,7 +81,7 @@ export class AiService {
             description: {
               type: 'string',
               description:
-                'Professional real-estate listing description (150-300 words)',
+                'Professional real-estate listing description (max 80 words)',
             },
             suggestions: {
               type: 'array',
